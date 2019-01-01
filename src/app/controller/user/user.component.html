@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="headerforAdmin">
+      <!-- <label for="X" class="close textKait">x</label> -->
+      <div class="text-center p-3">
+        <a class="navbar-brand Skranji text-primary" href="#">
+          <img src="/assets/img/logo.png" width="128px" height="128px" alt="" />
+        </a>
+      </div>
+      <div class="p-3 text-center">
+        <!-- <p class="textKait text-primary">
+          Admin : {{ _user.UserData().firstname }}
+        </p> -->
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/user/home"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/user/add"
+            >Add New List of Income.</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-12 content_admin"><router-outlet></router-outlet></div>
+  </div>
+</div>

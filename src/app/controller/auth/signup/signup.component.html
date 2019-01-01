@@ -1,0 +1,31 @@
+<h5 class="text-center p-3 mt-3 text-style">Sign Up</h5>
+<small
+  >If you are member , you can go to >>>
+  <a [routerLink]="['/auth/signin']">Sign In</a> for sign in use web
+  site.</small
+>
+<form>
+  <div class="md-form">
+    <label for="Email">Display Name : </label>
+    <input
+      type="text"
+      placeholder="Your Display Name..."
+      class="form-control"
+    />
+  </div>
+  <div class="md-form">
+    <label for="Email">Email : </label>
+    <input type="text" placeholder="Your email..." class="form-control" />
+  </div>
+  <div class="md-form">
+    <label for="Password"> Password : </label>
+    <input
+      type="password"
+      placeholder="Your password..."
+      class="form-control"
+    />
+  </div>
+  <div class="md-form mt-3">
+    <button class="btn btn-block btn-danger">Sign In</button>
+  </div>
+</form>

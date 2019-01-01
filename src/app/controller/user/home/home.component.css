@@ -1,0 +1,30 @@
+.homeBK {
+  padding: 20px;
+  border-radius: 6px;
+  background: white;
+}
+.bkOftable {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.51);
+  z-index: 100;
+}
+.listOfIncome {
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  margin: auto;
+  margin-top: 10px;
+  width: 80%;
+}
+.listDetail {
+  overflow: auto;
+  height: 200px;
+}
+.dangerI {
+  /* padding: 20px; */
+  font-weight: bold;
+  color: rgb(252, 76, 76);
+}

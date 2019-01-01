@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  background: url("assets/img/rect4355.png");
+  background-size: 100%;
+}
+a,
+p,
+small,
+label,
+input,
+button,
+.text-style {
+  font-family: "Kanit", sans-serif;
+}

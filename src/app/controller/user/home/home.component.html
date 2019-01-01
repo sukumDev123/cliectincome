@@ -1,0 +1,81 @@
+<div *ngIf="showOntable.length" class="bkOftable">
+  <div class="listOfIncome">
+    <a (click)="showOntable = []">close</a>
+    <table class="table">
+      <thead>
+        <th>ชนิด</th>
+        <th>จำนวนเงิน</th>
+        <th>วันที่</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataT of showOntable">
+          <td>{{ dataT.type == 1 ? "รายรับ" : "รายจ่าย" }}</td>
+          <td>{{ dataT.price }}</td>
+          <td>{{ dataT.create_at }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="container p-3">
+  <div class="col-12 col-md-10 homeBK" style="margin:auto">
+    <div class="row">
+      <div class="col-12 col-md-6 p-3">
+        <h3 class="text-style">รายรับ รายจ่าย ทั้งหมด</h3>
+
+        <h5 class="text-style">
+          รายรับ : {{ dataTotal.all.incomeInt | currency: "฿ " }}
+        </h5>
+        <h5 class="text-style">
+          รายจ่าย : {{ dataTotal.all.outcomeInt | currency: "฿ " }}
+        </h5>
+        <h5 class="text-style">
+          คงเหลือ : {{ dataTotal.all.resultTotal | currency: "฿ " }}
+        </h5>
+        <small class="{{ messageHandler.class }}"
+          >* {{ messageHandler.message }}</small
+        >
+      </div>
+      <div class="col-12 col-md-6 p-3 listDetail">
+        <h3 class="text-style">รายละเอียดทั้งหมดของ รายการ</h3>
+        <li
+          (click)="showTableOfDetail(income)"
+          class="text-style"
+          style="cursor:pointer"
+          *ngFor="let income of dataTotal.income"
+        >
+          <strong> {{ income }} </strong>
+        </li>
+      </div>
+    </div>
+    <div class="md-form">
+      <label for=""> แสดงเฉพาะปี : </label>
+      <select
+        #yearSelected
+        (change)="seletedYear(yearSelected)"
+        class="form-control"
+        id=""
+      >
+        <option value="0"> 0 </option>
+        <option *ngFor="let y of year" value="{{ y }}"> {{ y }} </option>
+      </select>
+    </div>
+    <div *ngIf="month.length" class="md-form">
+      <label for=""> แสดงเฉพาะเดือน : </label>
+
+      <select
+        #selectMonthV
+        (change)="selectMonth(selectMonthV)"
+        class="form-control"
+        id=""
+      >
+        <option value="0"> 0 </option>
+
+        <option *ngFor="let m of month" value="{{ m.index }}">
+          {{ m.month }}
+        </option>
+      </select>
+    </div>
+    <div *ngIf="dataIncome.length"></div>
+  </div>
+</div>

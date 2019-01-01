@@ -1,0 +1,39 @@
+<h5 class="text-center p-3 mt-3 text-style">Sign In</h5>
+<small
+  >If you are not member , you can go to >>>
+  <a [routerLink]="['/auth/signup']">Sign up</a> for sign up become a
+  member.</small
+>
+<form #formSignIn="ngForm" (ngSubmit)="signIn()">
+  <div class="md-form">
+    <label for="Email">Email : </label>
+    <input
+      [(ngModel)]="userModel.email"
+      name="email"
+      type="text"
+      placeholder="Your email..."
+      class="form-control"
+      required
+    />
+  </div>
+  <div class="md-form">
+    <label for="Password"> Password : </label>
+    <input
+      [(ngModel)]="userModel.password"
+      name="password"
+      type="password"
+      placeholder="Your password..."
+      class="form-control"
+      required
+    />
+  </div>
+  <div class="md-form mt-3">
+    <button
+      type="submit"
+      [disabled]="!formSignIn.form.valid"
+      class="btn btn-block btn-danger"
+    >
+      Sign In
+    </button>
+  </div>
+</form>

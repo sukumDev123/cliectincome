@@ -1,0 +1,26 @@
+.headerforAdmin {
+  padding: 10px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background: white;
+  box-shadow: 3px 0 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.content_admin {
+  width: 70%;
+  margin: auto;
+}
+
+label.close {
+  padding: 10px;
+  color: red;
+  width: 32px;
+  height: 32px;
+}
+@media only screen and (max-width: 600px) {
+  .headerforAdmin {
+    display: none;
+  }
+}
