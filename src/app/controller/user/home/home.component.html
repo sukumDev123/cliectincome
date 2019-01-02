@@ -6,12 +6,23 @@
         <th>ชนิด</th>
         <th>จำนวนเงิน</th>
         <th>วันที่</th>
+        <th>ลบ</th>
       </thead>
       <tbody>
         <tr *ngFor="let dataT of showOntable">
           <td>{{ dataT.type == 1 ? "รายรับ" : "รายจ่าย" }}</td>
           <td>{{ dataT.price }}</td>
           <td>{{ dataT.create_at }}</td>
+
+          <td>
+            <a
+              ><i
+                (click)="deleteArray(dataT.index)"
+                style="cursor:pointer;color:red;"
+                class="far fa-trash-alt"
+              ></i
+            ></a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -19,6 +30,15 @@
 </div>
 <div class="container p-3">
   <div class="col-12 col-md-10 homeBK" style="margin:auto">
+    <div *ngIf="!dateShow.year" class="text-center">
+      <h3 class="text-style">คิดจากข้อมูลทั้งหมด</h3>
+    </div>
+    <div *ngIf="dateShow.year" class="text-center">
+      <h3 class="text-style">
+        คิดจาก {{ dateShow.date }} {{ dateShow.month }} {{ dateShow.year }}
+      </h3>
+    </div>
+
     <div class="row">
       <div class="col-12 col-md-6 p-3">
         <h3 class="text-style">รายรับ รายจ่าย ทั้งหมด</h3>
@@ -76,6 +96,19 @@
         </option>
       </select>
     </div>
-    <div *ngIf="dataIncome.length"></div>
+    <div *ngIf="dateData.length">
+      <label>แสดงเฉพาะวัน : </label>
+      <select
+        #selectDateV
+        (change)="seletetedByDate(selectDateV)"
+        class="form-control"
+      >
+        <option value="0"> 0 </option>
+
+        <option *ngFor="let date of dateData" value="{{ date }}">
+          {{ date }}
+        </option>
+      </select>
+    </div>
   </div>
 </div>

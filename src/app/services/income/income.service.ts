@@ -12,4 +12,7 @@ export class IncomeService {
   getListByEmail(email): Observable<AuthInterFace> {
     return this._http.get<any>(`${host_api}/api/income/list/${email}`)
   }
+  addNewIncome(data): Observable<AuthInterFace> {
+    return this._http.post<any>(`${host_api}/api/income/add/new`, data)
+  }
 }
