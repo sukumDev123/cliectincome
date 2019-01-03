@@ -1,6 +1,15 @@
 <div *ngIf="showOntable.length" class="bkOftable">
   <div class="listOfIncome">
-    <a (click)="showOntable = []">close</a>
+    <div class="text-right">
+      <h5
+        class="text-danger"
+        style="cursor:pointer;margin-top:-10px;"
+        (click)="showOntable = []"
+      >
+        <i class="far fa-window-close"></i>
+      </h5>
+    </div>
+    <h3 class="text-style mb-5">รายการของ : {{ showOntable[0].detail }}</h3>
     <table class="table">
       <thead>
         <th>ชนิด</th>
@@ -11,7 +20,7 @@
       <tbody>
         <tr *ngFor="let dataT of showOntable">
           <td>{{ dataT.type == 1 ? "รายรับ" : "รายจ่าย" }}</td>
-          <td>{{ dataT.price }}</td>
+          <td>{{ dataT.price | currency: "฿ " }}</td>
           <td>{{ dataT.create_at }}</td>
 
           <td>

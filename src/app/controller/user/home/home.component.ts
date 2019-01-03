@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core"
 import { IncomeService } from "src/app/services/income/income.service"
 import { AuthService } from "src/app/services/auth/auth.service"
 import { IncomePresent } from "src/app/present/income"
+import { Router } from "@angular/router"
 class incomeData {
   incomeList = []
   incomeInt = 0
@@ -49,11 +50,17 @@ export class HomeComponent implements OnInit {
   }
   dateData = []
   incomePresent: IncomePresent
-  constructor(private income_list: IncomeService, private userI: AuthService) {}
+  constructor(
+    private income_list: IncomeService,
+    private userI: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const isLogin = this.userI.isLogin()
     this.incomePresent = new IncomePresent()
+    document.getElementById("loader_bk").style.display = "block"
+
     if (isLogin) {
       const { email } = this.userI.getAuth()
       this.income_list.getListByEmail(email).subscribe(
@@ -67,10 +74,22 @@ export class HomeComponent implements OnInit {
           this.dataTotal.income = this.incomePresent.detailOfList(
             this.incomePresent.getTotalData()
           )
+          document.getElementById("loader_bk").style.display = "none"
           // console.log(this.incomePresent.getTotalData())
         },
 
-        err => console.log(err)
+        err => {
+          const message = err.error.message
+            ? err.error.message
+            : "Server Error or Server Close."
+          alert(message)
+
+          if (err.error.status == 401) {
+            localStorage.removeItem("user")
+          } else if (err.status == 0 || err.status == 500) {
+            this.router.navigate(["/serverError"])
+          }
+        }
       )
     }
   }
@@ -105,7 +124,8 @@ export class HomeComponent implements OnInit {
           create_at: `${dateIs.getDate()} ${
             this.incomePresent.totalMonth()[dateIs.getMonth()]
           } ${dateIs.getFullYear()}`,
-          index: d.index
+          index: d.index,
+          detail: d.detail
         }
       })
   }

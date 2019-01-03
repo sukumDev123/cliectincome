@@ -7,6 +7,8 @@ import { UserComponent } from "./controller/user/user.component"
 import { HomeComponent } from "./controller/user/home/home.component"
 import { AddIncomeComponent } from "./controller/user/add-income/add-income.component"
 import { UserGuard } from "./guards/user.guard"
+import { ErrComponent } from "./controller/err/err.component"
+import { NotFoundComponent } from "./controller/not-found/not-found.component"
 
 const routes: Routes = [
   {
@@ -37,6 +39,14 @@ const routes: Routes = [
         component: AddIncomeComponent
       }
     ]
+  },
+  {
+    path: "serverError",
+    component: ErrComponent
+  },
+  {
+    path: "notFound",
+    component: NotFoundComponent
   },
   {
     path: "**",

@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core"
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.component.html",
-  styleUrls: ["./auth.component.css"]
+  selector: "app-err",
+  templateUrl: "./err.component.html",
+  styleUrls: ["./err.component.css"]
 })
-export class AuthComponent implements OnInit {
+export class ErrComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {

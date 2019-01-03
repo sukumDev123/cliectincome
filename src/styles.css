@@ -12,3 +12,8 @@ button,
 .text-style {
   font-family: "Kanit", sans-serif;
 }
+.colorRed {
+  color: rgb(226, 48, 48);
+  border-bottom: 1px solid rgb(226, 48, 48);
+  padding: 20px;
+}

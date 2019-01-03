@@ -17,6 +17,8 @@ export class AddIncomeComponent implements OnInit {
   constructor(private _incomeS: IncomeService, private _auth: AuthService) {}
 
   ngOnInit() {
+    document.getElementById("loader_bk").style.display = "none"
+
     if (this._auth.isLogin()) {
       const email = this._auth.getAuth().email
       this.incomeData.email = email
@@ -32,6 +34,12 @@ export class AddIncomeComponent implements OnInit {
         d => {
           if (d.status == 200) {
             alert(d.message)
+            this.incomeData = {
+              price: 0,
+              type: 0,
+              detail: ``,
+              email: ""
+            }
           }
         },
         e => {
