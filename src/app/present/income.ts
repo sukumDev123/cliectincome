@@ -2,7 +2,12 @@ export class IncomePresent {
   public dataTotal = []
   constructor() {}
   setData(data) {
-    this.dataTotal = data
+    this.dataTotal = data.map((d, i) => {
+      return {
+        ...d,
+        index: i
+      }
+    })
   }
   totalMonth() {
     return `January 
@@ -38,6 +43,11 @@ export class IncomePresent {
         message: "การเงินของคุณมีบัญหาร้ายแรง",
         class: `dangerI`
       }
+    } else {
+      return {
+        message: "normal",
+        class: "normalI"
+      }
     }
   }
   getUniqloYear() {
@@ -47,6 +57,15 @@ export class IncomePresent {
   }
   getTotalData() {
     return this.dataTotal
+  }
+  returnDateForMat(create_at) {
+    const dateIs = new Date(create_at)
+    return `${dateIs.getDate()}`
+  }
+  getDateUniqlo(data) {
+    return data
+      .map(d => this.returnDateForMat(d.create_at))
+      .filter((d, i, l) => l.indexOf(d) == i)
   }
   showDataAllOftheList(): any {
     return this.showDataIsResult(this.dataTotal)
@@ -61,6 +80,7 @@ export class IncomePresent {
       return dateData.getFullYear() == year && dateData.getMonth() == month
     })
   }
+
   showDataOfThisYear(year) {
     return this.dataTotal.filter(d => {
       const dateData = new Date(d.create_at)
@@ -68,10 +88,9 @@ export class IncomePresent {
     })
   }
   showDataOfThisDate(dateIs) {
-    return this.dataTotal.filter(d => {
-      const dateData = new Date(d.create_at)
-      return dateData.getDate() == dateIs
-    })
+    return this.dataTotal.filter(
+      d => this.returnDateForMat(d.create_at) === dateIs
+    )
   }
 
   showDataIsResult(dataTotal) {

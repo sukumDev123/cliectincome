@@ -43,9 +43,11 @@ export class HomeComponent implements OnInit {
     income: []
   }
   dateShow = {
-    year: 0,
-    month: 0
+    year: ``,
+    month: ``,
+    date: ``
   }
+  dateData = []
   incomePresent: IncomePresent
   constructor(private income_list: IncomeService, private userI: AuthService) {}
 
@@ -58,16 +60,16 @@ export class HomeComponent implements OnInit {
         d => {
           this.incomePresent.setData(d.data.data)
           this.year = this.incomePresent.getUniqloYear()
-          // console.log(this.incomePresent.showDataAllOftheList())
           this.dataTotal.all = this.incomePresent.showDataAllOftheList()
-          // const totalData =
           const calMoney = this.incomePresent.calMoney(this.dataTotal.all)
           this.messageHandler = calMoney
-          console.log(JSON.stringify(calMoney))
+          // console.log(JSON.stringify(calMoney))
           this.dataTotal.income = this.incomePresent.detailOfList(
             this.incomePresent.getTotalData()
           )
+          // console.log(this.incomePresent.getTotalData())
         },
+
         err => console.log(err)
       )
     }
@@ -80,13 +82,15 @@ export class HomeComponent implements OnInit {
     this.dataTotal.income = this.incomePresent.detailOfList(dataOfTheYear)
   }
   selectMonth(month) {
-    this.dateShow.month = month.value
+    this.dateShow.month = this.incomePresent.totalMonth()[month.value]
     const dataTotal = this.incomePresent.showDataOfThisMonth(
       this.dateShow.year,
-      this.dateShow.month
+      month.value
     )
+    // alert(JSON.stringify(dataTotal))
     this.dataTotal.all = this.incomePresent.showDataIsResult(dataTotal)
     this.dataTotal.income = this.incomePresent.detailOfList(dataTotal)
+    this.dateData = this.incomePresent.getDateUniqlo(dataTotal)
   }
   showTableOfDetail(detail) {
     // console.log(detail)
@@ -100,8 +104,19 @@ export class HomeComponent implements OnInit {
           type: d.type,
           create_at: `${dateIs.getDate()} ${
             this.incomePresent.totalMonth()[dateIs.getMonth()]
-          } ${dateIs.getFullYear()}`
+          } ${dateIs.getFullYear()}`,
+          index: d.index
         }
       })
+  }
+  seletetedByDate(thisDate) {
+    const dateIs = thisDate.value
+    this.dateShow.date = dateIs
+    const showDateIs = this.incomePresent.showDataOfThisDate(dateIs)
+    this.dataTotal.all = this.incomePresent.showDataIsResult(showDateIs)
+    this.dataTotal.income = this.incomePresent.detailOfList(showDateIs)
+  }
+  deleteArray(index) {
+    alert(index)
   }
 }

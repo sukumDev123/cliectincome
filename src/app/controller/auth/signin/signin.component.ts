@@ -14,6 +14,9 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.userModel = new AuthModel()
+    if (this._authService.isLogin()) {
+      this._router.navigate(["/user/home"])
+    }
   }
   signIn() {
     // console.log(this.userModel)

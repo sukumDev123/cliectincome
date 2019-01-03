@@ -1,1 +1,1 @@
-export const host_api = `http://localhost:3000`
+export const host_api = `https://us-central1-incomeonline-1f379.cloudfunctions.net/createNewuser`

@@ -6,6 +6,7 @@ import { AuthComponent } from "./controller/auth/auth.component"
 import { UserComponent } from "./controller/user/user.component"
 import { HomeComponent } from "./controller/user/home/home.component"
 import { AddIncomeComponent } from "./controller/user/add-income/add-income.component"
+import { UserGuard } from "./guards/user.guard"
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
   {
     path: "user",
     component: UserComponent,
+    canActivate: [UserGuard],
     children: [
       {
         path: "home",
@@ -35,11 +37,15 @@ const routes: Routes = [
         component: AddIncomeComponent
       }
     ]
+  },
+  {
+    path: "**",
+    redirectTo: "/user/home"
   }
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
