@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core"
+import { Router } from "@angular/router"
 
 @Component({
   selector: "app-user",
@@ -6,7 +7,7 @@ import { Component, OnInit } from "@angular/core"
   styleUrls: ["./user.component.css"]
 })
 export class UserComponent implements OnInit {
-  constructor() {}
+  constructor(private _router: Router) {}
   getById(headerforAdmin) {
     return document.getElementById(headerforAdmin)
   }
@@ -24,6 +25,12 @@ export class UserComponent implements OnInit {
       default:
         showNav.style.display = "block"
         break
+    }
+  }
+  logout() {
+    if (confirm("You want to logout.")) {
+      localStorage.removeItem("user")
+      this._router.navigate(["/auth/signin"])
     }
   }
 }

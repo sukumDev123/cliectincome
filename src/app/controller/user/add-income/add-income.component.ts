@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core"
 import { IncomeService } from "src/app/services/income/income.service"
 import { AuthService } from "src/app/services/auth/auth.service"
-
+import { Observable, observable } from "rxjs"
 @Component({
   selector: "app-add-income",
   templateUrl: "./add-income.component.html",
@@ -14,6 +14,9 @@ export class AddIncomeComponent implements OnInit {
     detail: ``,
     email: ""
   }
+
+  submit_ = "submit"
+  submit_load = false
   constructor(private _incomeS: IncomeService, private _auth: AuthService) {}
 
   ngOnInit() {
@@ -25,6 +28,9 @@ export class AddIncomeComponent implements OnInit {
     }
   }
   addIncome() {
+    this.submit_load = true
+    this.submit_ = "add to database..."
+    const email = this.incomeData.email
     if (
       this.incomeData.detail &&
       this.incomeData.price &&
@@ -35,18 +41,24 @@ export class AddIncomeComponent implements OnInit {
           if (d.status == 200) {
             alert(d.message)
             this.incomeData = {
-              price: 0,
+              detail: "",
               type: 0,
-              detail: ``,
-              email: ""
+              price: 0,
+              email: email
             }
+            this.submit_load = false
+            this.submit_ = "submit"
           }
         },
         e => {
           alert(JSON.stringify(e))
+          this.submit_load = false
+          this.submit_ = "submit"
         }
       )
     } else {
+      this.submit_load = false
+      this.submit_ = "submit"
       alert("Input every filed.")
     }
   }

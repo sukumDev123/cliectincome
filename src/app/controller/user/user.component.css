@@ -44,3 +44,7 @@ label.close {
     display: block;
   }
 }
+.active {
+  color: rgb(226, 48, 48);
+  border-bottom: 1px solid rgb(226, 48, 48);
+}

@@ -18,7 +18,7 @@
       <ul class="nav flex-column">
         <li class="nav-item">
           <a
-            class="nav-link colorRed"
+            class="nav-link colorText"
             routerLinkActive="active"
             routerLink="/user/home"
             ><i class="fas fa-home"></i> Home</a
@@ -26,10 +26,18 @@
         </li>
         <li class="nav-item">
           <a
-            class="nav-link colorRed"
+            class="nav-link colorText"
             routerLinkActive="active"
             routerLink="/user/add"
             ><i class="fas fa-plus-square"></i> Add income.</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link colorText"
+            (click)="logout()"
+            routerLinkActive="active"
+            ><i class="fas fa-sign-out-alt"></i> Log out</a
           >
         </li>
       </ul>

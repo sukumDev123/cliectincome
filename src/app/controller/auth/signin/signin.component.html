@@ -30,10 +30,10 @@
   <div class="md-form mt-3">
     <button
       type="submit"
-      [disabled]="!formSignIn.form.valid"
+      [disabled]="!formSignIn.form.valid || submit_load"
       class="btn btn-block btn-danger"
     >
-      Sign In
+      {{ submit_ }}
     </button>
   </div>
 </form>

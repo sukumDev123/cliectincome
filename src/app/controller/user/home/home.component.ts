@@ -65,17 +65,19 @@ export class HomeComponent implements OnInit {
       const { email } = this.userI.getAuth()
       this.income_list.getListByEmail(email).subscribe(
         d => {
-          this.incomePresent.setData(d.data.data)
-          this.year = this.incomePresent.getUniqloYear()
-          this.dataTotal.all = this.incomePresent.showDataAllOftheList()
-          const calMoney = this.incomePresent.calMoney(this.dataTotal.all)
-          this.messageHandler = calMoney
-          // console.log(JSON.stringify(calMoney))
-          this.dataTotal.income = this.incomePresent.detailOfList(
-            this.incomePresent.getTotalData()
-          )
+          if (d.data.data) {
+            this.incomePresent.setData(d.data.data)
+            this.year = this.incomePresent.getUniqloYear()
+            this.dataTotal.all = this.incomePresent.showDataAllOftheList()
+            const calMoney = this.incomePresent.calMoney(this.dataTotal.all)
+            this.messageHandler = calMoney
+
+
+            this.dataTotal.income = this.incomePresent.detailOfList(
+              this.incomePresent.getTotalData()
+            )
+          }
           document.getElementById("loader_bk").style.display = "none"
-          // console.log(this.incomePresent.getTotalData())
         },
 
         err => {
