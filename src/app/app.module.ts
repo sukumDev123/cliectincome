@@ -11,7 +11,9 @@ import { FormsModule } from "@angular/forms"
 import { UserComponent } from "./controller/user/user.component"
 import { HomeComponent } from "./controller/user/home/home.component"
 import { AddIncomeComponent } from "./controller/user/add-income/add-income.component"
-import { AuthInterceprot } from "./AuthInterceprot"
+import { AuthInterceprot } from "./AuthInterceprot";
+import { ErrComponent } from './controller/err/err.component';
+import { NotFoundComponent } from './controller/not-found/not-found.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,9 @@ import { AuthInterceprot } from "./AuthInterceprot"
     AuthComponent,
     UserComponent,
     HomeComponent,
-    AddIncomeComponent
+    AddIncomeComponent,
+    ErrComponent,
+    NotFoundComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

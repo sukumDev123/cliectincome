@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core"
 import { IncomeService } from "src/app/services/income/income.service"
 import { AuthService } from "src/app/services/auth/auth.service"
 import { IncomePresent } from "src/app/present/income"
+import { Router } from "@angular/router"
+import { BehaviorSubject, Observable } from "rxjs"
 class incomeData {
   incomeList = []
   incomeInt = 0
@@ -42,6 +44,8 @@ export class HomeComponent implements OnInit {
     all: new incomeData(),
     income: []
   }
+  dataIncomeBS: BehaviorSubject<any>
+  dataIncomeObsv: Observable<any>
   dateShow = {
     year: ``,
     month: ``,
@@ -49,37 +53,64 @@ export class HomeComponent implements OnInit {
   }
   dateData = []
   incomePresent: IncomePresent
-  constructor(private income_list: IncomeService, private userI: AuthService) {}
+  constructor(
+    private income_list: IncomeService,
+    private userI: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const isLogin = this.userI.isLogin()
     this.incomePresent = new IncomePresent()
+    this.dataIncomeBS = new BehaviorSubject<any>(this.dataTotal)
+    this.dataIncomeObsv = this.dataIncomeBS.asObservable()
+    document.getElementById("loader_bk").style.display = "block"
     if (isLogin) {
       const { email } = this.userI.getAuth()
+      this.dataIncomeObsv.subscribe(d => {
+        this.dataTotal.all = d.all
+        this.dataTotal.income = d.income
+        const calMoney = this.incomePresent.calMoney(d.all)
+        this.messageHandler = calMoney
+      })
       this.income_list.getListByEmail(email).subscribe(
         d => {
-          this.incomePresent.setData(d.data.data)
-          this.year = this.incomePresent.getUniqloYear()
-          this.dataTotal.all = this.incomePresent.showDataAllOftheList()
-          const calMoney = this.incomePresent.calMoney(this.dataTotal.all)
-          this.messageHandler = calMoney
-          // console.log(JSON.stringify(calMoney))
-          this.dataTotal.income = this.incomePresent.detailOfList(
-            this.incomePresent.getTotalData()
-          )
-          // console.log(this.incomePresent.getTotalData())
+          if (d.data.data) {
+            this.incomePresent.setData(d.data.data)
+            this.year = this.incomePresent.getUniqloYear()
+            this.dataIncomeBS.next({
+              all: this.incomePresent.showDataAllOftheList(),
+              income: this.incomePresent.detailOfList(
+                this.incomePresent.getTotalData()
+              )
+            })
+          }
+          document.getElementById("loader_bk").style.display = "none"
         },
+        err => {
+          const message = err.error.message
+            ? err.error.message
+            : "Server Error or Server Close."
+          alert(message)
 
-        err => console.log(err)
+          if (err.error.status == 401) {
+            localStorage.removeItem("user")
+          } else if (err.status == 0 || err.status == 500) {
+            this.router.navigate(["/serverError"])
+          }
+        }
       )
     }
   }
+
   seletedYear(year) {
     this.dateShow.year = year.value
     this.month = this.incomePresent.getMountTotal(year)
     const dataOfTheYear = this.incomePresent.showDataOfThisYear(year.value)
-    this.dataTotal.all = this.incomePresent.showDataIsResult(dataOfTheYear)
-    this.dataTotal.income = this.incomePresent.detailOfList(dataOfTheYear)
+    this.dataIncomeBS.next({
+      all: this.incomePresent.showDataIsResult(dataOfTheYear),
+      income: this.incomePresent.detailOfList(dataOfTheYear)
+    })
   }
   selectMonth(month) {
     this.dateShow.month = this.incomePresent.totalMonth()[month.value]
@@ -87,10 +118,11 @@ export class HomeComponent implements OnInit {
       this.dateShow.year,
       month.value
     )
-    // alert(JSON.stringify(dataTotal))
-    this.dataTotal.all = this.incomePresent.showDataIsResult(dataTotal)
-    this.dataTotal.income = this.incomePresent.detailOfList(dataTotal)
     this.dateData = this.incomePresent.getDateUniqlo(dataTotal)
+    this.dataIncomeBS.next({
+      all: this.incomePresent.showDataIsResult(dataTotal),
+      income: this.incomePresent.detailOfList(dataTotal)
+    })
   }
   showTableOfDetail(detail) {
     // console.log(detail)
@@ -105,7 +137,8 @@ export class HomeComponent implements OnInit {
           create_at: `${dateIs.getDate()} ${
             this.incomePresent.totalMonth()[dateIs.getMonth()]
           } ${dateIs.getFullYear()}`,
-          index: d.index
+          index: d.index,
+          detail: d.detail
         }
       })
   }
@@ -113,10 +146,20 @@ export class HomeComponent implements OnInit {
     const dateIs = thisDate.value
     this.dateShow.date = dateIs
     const showDateIs = this.incomePresent.showDataOfThisDate(dateIs)
-    this.dataTotal.all = this.incomePresent.showDataIsResult(showDateIs)
-    this.dataTotal.income = this.incomePresent.detailOfList(showDateIs)
+    this.dataIncomeBS.next({
+      all: this.incomePresent.showDataIsResult(showDateIs),
+      income: this.incomePresent.detailOfList(showDateIs)
+    })
   }
   deleteArray(index) {
     alert(index)
+  }
+  resetSreach() {
+    this.month = []
+    this.dateData = []
+    this.dataIncomeBS.next({
+      all: this.incomePresent.showDataAllOftheList(),
+      income: this.incomePresent.detailOfList(this.incomePresent.getTotalData())
+    })
   }
 }

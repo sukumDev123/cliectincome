@@ -1,6 +1,9 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="headerforAdmin">
+    <h2 class="text-style list_manu" (click)="listShow()">
+      <i class="fas fa-list-ul"></i>
+    </h2>
+    <div id="headerforAdmin" class="headerforAdmin">
       <!-- <label for="X" class="close textKait">x</label> -->
       <div class="text-center p-3">
         <a class="navbar-brand Skranji text-primary" href="#">
@@ -14,13 +17,27 @@
       </div>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/user/home"
-            >Home</a
+          <a
+            class="nav-link colorText"
+            routerLinkActive="active"
+            routerLink="/user/home"
+            ><i class="fas fa-home"></i> Home</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/user/add"
-            >Add New List of Income.</a
+          <a
+            class="nav-link colorText"
+            routerLinkActive="active"
+            routerLink="/user/add"
+            ><i class="fas fa-plus-square"></i> Add income.</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link colorText"
+            (click)="logout()"
+            routerLinkActive="active"
+            ><i class="fas fa-sign-out-alt"></i> Log out</a
           >
         </li>
       </ul>

@@ -4,10 +4,26 @@
   position: fixed;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.295);
+  background: rgb(255, 255, 255);
   box-shadow: 3px 0 10px 1px rgba(0, 0, 0, 0.1);
 }
-
+.list_manu {
+  padding: 10px;
+  color: rgb(255, 96, 96);
+  z-index: 1000;
+  cursor: pointer;
+  transition: all ease-in-out 0.4s;
+  font-size: 20px;
+  /* display: none; */
+  background: white;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  display: none;
+}
+.list_manu:hover {
+  text-align: center;
+  border-radius: 100%;
+}
 .content_admin {
   width: 70%;
   margin: auto;
@@ -19,8 +35,16 @@ label.close {
   width: 32px;
   height: 32px;
 }
+
 @media only screen and (max-width: 600px) {
   .headerforAdmin {
     display: none;
   }
+  .list_manu {
+    display: block;
+  }
+}
+.active {
+  color: rgb(226, 48, 48);
+  border-bottom: 1px solid rgb(226, 48, 48);
 }
