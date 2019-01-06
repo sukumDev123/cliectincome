@@ -292,6 +292,16 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
+"@types/geojson@*":
+  version "7946.0.4"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.4.tgz#4e049756383c3f055dd8f3d24e63fb543e98eb07"
+
+"@types/highcharts@^5.0.36":
+  version "5.0.36"
+  resolved "https://registry.yarnpkg.com/@types/highcharts/-/highcharts-5.0.36.tgz#0c7fd6cbd860c003ea880bbf98a703948483bc7c"
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/jasmine@*":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.5.tgz#3738ffbf34dffae9ecaac4503d7d969744f0e1d7"
@@ -2715,9 +2725,9 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-highcharts@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-7.0.1.tgz#0c6ad096559aca723bc95276bce02b9790c444e8"
+highcharts@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.2.0.tgz#2a6d04652eb43c66f462ca7e2d2808f1f2782b61"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"

@@ -3,8 +3,9 @@ import { IncomeService } from "src/app/services/income/income.service"
 import { AuthService } from "src/app/services/auth/auth.service"
 import { IncomePresent } from "src/app/present/income"
 import { Router } from "@angular/router"
-import { BehaviorSubject, Observable } from "rxjs"
 import { IncomeInterface } from "src/app/present/income.interface"
+import { BehaviorSubject, Observable } from "rxjs"
+
 export class incomeData {
   incomeList = []
   incomeInt = 0
@@ -45,13 +46,14 @@ export class HomeComponent implements OnInit {
     all: new incomeData(),
     income: []
   }
-  dataIncomeBS: BehaviorSubject<IncomeInterface>
-  dataIncomeObsv: Observable<IncomeInterface>
+
   dateShow = {
     year: ``,
     month: ``,
     date: ``
   }
+  dataBe: BehaviorSubject<IncomeInterface>
+  dataObser: Observable<IncomeInterface>
   dateData = []
   incomePresent: IncomePresent
   constructor(
@@ -63,12 +65,15 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     const isLogin = this.userI.isLogin()
     this.incomePresent = new IncomePresent()
-    this.dataIncomeBS = new BehaviorSubject<IncomeInterface>(this.dataTotal)
-    this.dataIncomeObsv = this.dataIncomeBS.asObservable()
+    this.dataBe = new BehaviorSubject<IncomeInterface>({
+      all: new incomeData(),
+      income: []
+    })
+    this.dataObser = this.dataBe.asObservable()
     document.getElementById("loader_bk").style.display = "block"
     if (isLogin) {
       const { email } = this.userI.getAuth()
-      this.income_list.getData().subscribe(d => {
+      this.dataObser.subscribe(d => {
         this.dataTotal.all = d.all
         this.dataTotal.income = d.income
         const calMoney = this.incomePresent.calMoney(d.all)
@@ -79,7 +84,8 @@ export class HomeComponent implements OnInit {
           if (d.data.data) {
             this.incomePresent.setData(d.data.data)
             this.year = this.incomePresent.getUniqloYear()
-            this.income_list.setDataIncome({
+
+            this.dataBe.next({
               all: this.incomePresent.showDataAllOftheList(),
               income: this.incomePresent.detailOfList(
                 this.incomePresent.getTotalData()
@@ -108,7 +114,8 @@ export class HomeComponent implements OnInit {
     this.dateShow.year = year.value
     this.month = this.incomePresent.getMountTotal(year)
     const dataOfTheYear = this.incomePresent.showDataOfThisYear(year.value)
-    this.dataIncomeBS.next({
+
+    this.dataBe.next({
       all: this.incomePresent.showDataIsResult(dataOfTheYear),
       income: this.incomePresent.detailOfList(dataOfTheYear)
     })
@@ -119,8 +126,9 @@ export class HomeComponent implements OnInit {
       this.dateShow.year,
       month.value
     )
+
     this.dateData = this.incomePresent.getDateUniqlo(dataTotal)
-    this.income_list.setDataIncome({
+    this.dataBe.next({
       all: this.incomePresent.showDataIsResult(dataTotal),
       income: this.incomePresent.detailOfList(dataTotal)
     })
@@ -147,7 +155,7 @@ export class HomeComponent implements OnInit {
     const dateIs = thisDate.value
     this.dateShow.date = dateIs
     const showDateIs = this.incomePresent.showDataOfThisDate(dateIs)
-    this.income_list.setDataIncome({
+    this.dataBe.next({
       all: this.incomePresent.showDataIsResult(showDateIs),
       income: this.incomePresent.detailOfList(showDateIs)
     })
@@ -158,7 +166,7 @@ export class HomeComponent implements OnInit {
   resetSreach() {
     this.month = []
     this.dateData = []
-    this.income_list.setDataIncome({
+    this.dataBe.next({
       all: this.incomePresent.showDataAllOftheList(),
       income: this.incomePresent.detailOfList(this.incomePresent.getTotalData())
     })

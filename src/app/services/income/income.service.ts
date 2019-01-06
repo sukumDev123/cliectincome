@@ -10,23 +10,11 @@ import { incomeData } from "src/app/controller/user/home/home.component"
   providedIn: "root"
 })
 export class IncomeService {
-  dataBe: BehaviorSubject<IncomeInterface>
-  constructor(private _http: HttpClient) {
-    this.dataBe = new BehaviorSubject<IncomeInterface>({
-      all: new incomeData(),
-      income: []
-    })
-  }
+  constructor(private _http: HttpClient) {}
   getListByEmail(email): Observable<AuthInterFace> {
     return this._http.get<any>(`${host_api}/api/income/list/${email}`)
   }
   addNewIncome(data): Observable<AuthInterFace> {
     return this._http.post<any>(`${host_api}/api/income/add/new`, data)
-  }
-  getData() {
-    return this.dataBe.asObservable()
-  }
-  setDataIncome(data: IncomeInterface) {
-    this.dataBe.next(data)
   }
 }
