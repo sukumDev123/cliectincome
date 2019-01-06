@@ -15,7 +15,7 @@ button,
 .colorText {
   color: rgb(0, 0, 0);
   border-bottom: 1px solid rgb(0, 0, 0);
-  padding: 20px;
+
   cursor: pointer;
 }
 .colorText:hover {
