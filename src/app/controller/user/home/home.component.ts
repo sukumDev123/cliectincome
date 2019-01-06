@@ -67,43 +67,42 @@ export class HomeComponent implements OnInit {
     document.getElementById("loader_bk").style.display = "block"
     if (isLogin) {
       const { email } = this.userI.getAuth()
-      this.dataIncomeObsv.subscribe(this.handlerDataOnWeb)
-      this.income_list
-        .getListByEmail(email)
-        .subscribe(this.setDataOnServer, this.catchDataOnServer)
-    }
-  }
-  setDataOnServer(d) {
-    if (d.data.data) {
-      this.incomePresent.setData(d.data.data)
-      this.year = this.incomePresent.getUniqloYear()
-      this.dataIncomeBS.next({
-        all: this.incomePresent.showDataAllOftheList(),
-        income: this.incomePresent.detailOfList(
-          this.incomePresent.getTotalData()
-        )
+      this.dataIncomeObsv.subscribe(d => {
+        this.dataTotal.all = d.all
+        this.dataTotal.income = d.income
+        const calMoney = this.incomePresent.calMoney(d.all)
+        this.messageHandler = calMoney
       })
-    }
-    document.getElementById("loader_bk").style.display = "none"
-  }
-  handlerDataOnWeb(d) {
-    this.dataTotal.all = d.all
-    this.dataTotal.income = d.income
-    const calMoney = this.incomePresent.calMoney(d.all)
-    this.messageHandler = calMoney
-  }
-  catchDataOnServer(err) {
-    const message = err.error.message
-      ? err.error.message
-      : "Server Error or Server Close."
-    alert(message)
+      this.income_list.getListByEmail(email).subscribe(
+        d => {
+          if (d.data.data) {
+            this.incomePresent.setData(d.data.data)
+            this.year = this.incomePresent.getUniqloYear()
+            this.dataIncomeBS.next({
+              all: this.incomePresent.showDataAllOftheList(),
+              income: this.incomePresent.detailOfList(
+                this.incomePresent.getTotalData()
+              )
+            })
+          }
+          document.getElementById("loader_bk").style.display = "none"
+        },
+        err => {
+          const message = err.error.message
+            ? err.error.message
+            : "Server Error or Server Close."
+          alert(message)
 
-    if (err.error.status == 401) {
-      localStorage.removeItem("user")
-    } else if (err.status == 0 || err.status == 500) {
-      this.router.navigate(["/serverError"])
+          if (err.error.status == 401) {
+            localStorage.removeItem("user")
+          } else if (err.status == 0 || err.status == 500) {
+            this.router.navigate(["/serverError"])
+          }
+        }
+      )
     }
   }
+
   seletedYear(year) {
     this.dateShow.year = year.value
     this.month = this.incomePresent.getMountTotal(year)
