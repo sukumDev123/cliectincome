@@ -15,6 +15,20 @@
         </select>
       </div>
       <div class="md-form">
+        <label> เลือกรายละเอียด : </label>
+        <select
+          #selectedDetail
+          (change)="selectedDetailToServer(selectedDetail)"
+          class="form-control"
+        >
+          <option value="0"> เลือกรายละเอียด </option>
+          <option value="ข้าวเช้า">ข้าวเช้า</option>
+          <option value="ข้าวเที่ยง">ข้าวเที่ยง</option>
+          <option value="ข้าวเย็น">ข้าวเย็น</option>
+          <option value="น้ำ">น้ำ</option>
+        </select>
+      </div>
+      <div class="md-form">
         <label>รายละเอียดรายการ: </label>
         <textarea
           [(ngModel)]="incomeData.detail"

@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable } from "rxjs"
 export class AddIncomeComponent implements OnInit {
   incomeData = {
     price: 0,
-    type: 0,
+    type: 1,
     detail: ``,
     email: ""
   }
@@ -43,8 +43,8 @@ export class AddIncomeComponent implements OnInit {
     const email = this.incomeData.email
     if (
       this.incomeData.detail &&
-      this.incomeData.price &&
-      this.incomeData.type
+      this.incomeData.price != 0 &&
+      this.incomeData.type != 0
     ) {
       this._incomeS.addNewIncome(this.incomeData).subscribe(
         d => {
@@ -69,5 +69,9 @@ export class AddIncomeComponent implements OnInit {
 
       alert("Input every filed.")
     }
+  }
+  selectedDetailToServer(detail) {
+    const { value } = detail
+    this.incomeData.detail = value
   }
 }
